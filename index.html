@@ -1,855 +1,906 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulasi Artha Untung</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <style>
-      /* ─── Reset & Base ─── */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
 
-      :root {
-        --navy: #0b1f3a;
-        --navy-mid: #132a4e;
-        --gold: #c8973a;
-        --gold-light: #e8b86d;
-        --cream: #f9f6f0;
-        --white: #ffffff;
-        --text-dark: #1a2b40;
-        --text-mid: #4a5f78;
-        --text-muted: #8095ab;
-        --border: #dde4ee;
-        --success: #1a7a4a;
-        --success-bg: #eaf6f0;
-        --error: #b83232;
-        --error-bg: #fdf0f0;
-        --shadow-sm: 0 2px 8px rgba(11, 31, 58, 0.07);
-        --shadow-md: 0 8px 32px rgba(11, 31, 58, 0.12);
-        --shadow-lg: 0 20px 60px rgba(11, 31, 58, 0.18);
-        --radius-sm: 6px;
-        --radius-md: 12px;
-        --radius-lg: 20px;
-        --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulasi Artha Untung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-      html {
-        scroll-behavior: smooth;
-      }
+    :root {
+      --navy: #0b1f3a;
+      --navy-mid: #132a4e;
+      --gold: #c8973a;
+      --gold-light: #e8b86d;
+      --cream: #f9f6f0;
+      --white: #ffffff;
+      --text-dark: #1a2b40;
+      --text-mid: #4a5f78;
+      --text-muted: #8095ab;
+      --border: #dde4ee;
+      --success: #1a7a4a;
+      --success-bg: #eaf6f0;
+      --error: #b83232;
+      --error-bg: #fdf0f0;
+      --shadow-sm: 0 2px 8px rgba(11, 31, 58, 0.07);
+      --shadow-md: 0 8px 32px rgba(11, 31, 58, 0.12);
+      --shadow-lg: 0 20px 60px rgba(11, 31, 58, 0.18);
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-      body {
-        font-family: "DM Sans", sans-serif;
-        background: var(--cream);
-        color: var(--text-dark);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0;
-      }
+    html {
+      scroll-behavior: smooth;
+    }
 
-      /* ─── Header Banner ─── */
-      .header-banner {
-        width: 100%;
-        background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #1b3a6b 100%);
-        padding: 36px 24px 28px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-      .header-banner::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(200, 151, 58, 0.03) 40px, rgba(200, 151, 58, 0.03) 80px);
-      }
-      .header-banner::after {
-        content: "";
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        right: 0;
-        height: 28px;
-        background: var(--cream);
-        clip-path: ellipse(55% 100% at 50% 100%);
-      }
-      .bank-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: rgba(200, 151, 58, 0.15);
-        border: 1px solid rgba(200, 151, 58, 0.3);
-        border-radius: 99px;
-        padding: 6px 16px;
-        margin-bottom: 16px;
-      }
-      .bank-badge span {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--gold-light);
-      }
-      .bank-badge svg {
-        flex-shrink: 0;
-      }
-      .header-banner h1 {
-        font-family: "Playfair Display", serif;
-        font-size: clamp(1.6rem, 4vw, 2.4rem);
-        font-weight: 700;
-        color: var(--white);
-        line-height: 1.2;
-        margin-bottom: 8px;
-        position: relative;
-      }
-      .header-banner h1 em {
-        font-style: normal;
-        color: var(--gold-light);
-      }
-      .header-banner p {
-        font-size: 13.5px;
-        color: rgba(255, 255, 255, 0.6);
-        font-weight: 300;
-        position: relative;
-      }
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+    }
 
-      /* ─── Page Body ─── */
-      .page-body {
-        width: 100%;
-        max-width: 560px;
-        padding: 8px 16px 48px;
-      }
+    /* ─── Header Banner ─── */
+    .header-banner {
+      width: 100%;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #1b3a6b 100%);
+      padding: 36px 24px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-      /* ─── Info Strip ─── */
-      .info-strip {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        margin: 20px 0;
-      }
-      .info-card {
-        background: var(--white);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-md);
-        padding: 14px 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        box-shadow: var(--shadow-md);
-        transition: box-shadow var(--transition);
-      }
-      .info-card:hover {
-        box-shadow: var(--shadow-lg);
-      }
-      .info-card .ic-label {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--text-muted);
-      }
-      .info-card .ic-value {
-        font-family: "Playfair Display", serif;
-        font-size: 1.15rem;
-        font-weight: 600;
-        color: var(--navy);
-      }
-      .info-card .ic-sub {
-        font-size: 11.5px;
-        color: var(--text-muted);
-      }
+    .header-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(200, 151, 58, 0.03) 40px, rgba(200, 151, 58, 0.03) 80px);
+    }
 
-      /* ─── Form Card ─── */
+    .header-banner::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 28px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .bank-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(200, 151, 58, 0.15);
+      border: 1px solid rgba(200, 151, 58, 0.3);
+      border-radius: 99px;
+      padding: 6px 16px;
+      margin-bottom: 16px;
+    }
+
+    .bank-badge span {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    .bank-badge svg {
+      flex-shrink: 0;
+    }
+
+    .header-banner h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .header-banner h1 em {
+      font-style: normal;
+      color: var(--gold-light);
+    }
+
+    .header-banner p {
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 300;
+      position: relative;
+    }
+
+    /* ─── Page Body ─── */
+    .page-body {
+      width: 100%;
+      max-width: 560px;
+      padding: 8px 16px 48px;
+    }
+
+    /* ─── Info Strip ─── */
+    .info-strip {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: var(--shadow-md);
+      transition: box-shadow var(--transition);
+    }
+
+    .info-card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .info-card .ic-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .info-card .ic-value {
+      font-family: "Playfair Display", serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .info-card .ic-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* ─── Form Card ─── */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 28px 24px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-card h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-card h2::before {
+      content: "";
+      width: 4px;
+      height: 22px;
+      background: linear-gradient(to bottom, var(--gold), var(--gold-light));
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    /* ─── Form Fields ─── */
+    .field {
+      margin-bottom: 20px;
+    }
+
+    .field label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .field label .required-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-mid);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .input-wrap input[type="text"] {
+      width: 100%;
+      padding: 13px 14px 13px 46px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: "DM Sans", sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-dark);
+      background: var(--white);
+      outline: none;
+      transition:
+        border-color var(--transition),
+        box-shadow var(--transition);
+    }
+
+    .input-wrap input[type="text"]:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(11, 31, 58, 0.08);
+    }
+
+    .input-wrap input[type="text"].invalid {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(184, 50, 50, 0.08);
+    }
+
+    /* Tenor selector */
+    .tenor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .tenor-option {
+      position: relative;
+    }
+
+    .tenor-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .tenor-option label {
+      all: unset;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition:
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+      text-transform: none;
+      letter-spacing: normal;
+    }
+
+    .tenor-option label .t-months {
+      font-family: "Playfair Display", serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .tenor-option label .t-rate {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .tenor-option input:checked+label {
+      border-color: var(--navy);
+      background: rgba(11, 31, 58, 0.04);
+      box-shadow: 0 0 0 3px rgba(11, 31, 58, 0.07);
+    }
+
+    .tenor-option input:checked+label .t-months {
+      color: var(--navy);
+    }
+
+    .tenor-option input:checked+label .t-rate {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .tenor-option label:hover {
+      border-color: var(--text-mid);
+      background: rgba(11, 31, 58, 0.02);
+    }
+
+    /* Hint & Error */
+    .field-hint {
+      margin-top: 7px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .field-error {
+      margin-top: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--error);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition:
+        opacity var(--transition),
+        transform var(--transition);
+    }
+
+    .field-error.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── CTA Button ─── */
+    .btn-hitung {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--navy) 0%, #1b3a6b 100%);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: "DM Sans", sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-hitung::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .btn-hitung:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(11, 31, 58, 0.22);
+    }
+
+    .btn-hitung:hover::before {
+      opacity: 0.15;
+    }
+
+    .btn-hitung:active {
+      transform: translateY(0);
+    }
+
+    .btn-hitung span,
+    .btn-hitung svg {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Result Panel ─── */
+    .result-panel {
+      margin-top: 20px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+      transition:
+        opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .result-panel.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .result-header {
+      background: linear-gradient(135deg, var(--navy) 0%, #1b3a6b 100%);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .result-header-left h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 3px;
+    }
+
+    .result-header-left p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .result-badge {
+      background: rgba(200, 151, 58, 0.18);
+      border: 1px solid rgba(200, 151, 58, 0.35);
+      border-radius: 99px;
+      padding: 5px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--gold-light);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .result-body {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .result-section {
+      padding: 18px 24px;
+    }
+
+    .result-section+.result-section {
+      border-top: 1px solid var(--border);
+    }
+
+    .result-section-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .result-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .result-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .rr-label {
+      font-size: 13.5px;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .rr-label .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot-gold {
+      background: var(--gold);
+    }
+
+    .dot-navy {
+      background: var(--navy);
+    }
+
+    .dot-success {
+      background: var(--success);
+    }
+
+    .rr-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-align: right;
+    }
+
+    .rr-value.highlight {
+      font-family: "DM Sans", sans-serif;
+      font-size: 1.05rem;
+      color: var(--navy);
+    }
+
+    .rr-value.green {
+      color: var(--success);
+    }
+
+    .result-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, var(--navy) 0%, #1b3a6b 100%);
+      padding: 16px 24px;
+    }
+
+    .rt-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .rt-value {
+      font-family: "Playfair Display", serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    /* ─── Disclaimer ─── */
+    .disclaimer {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: rgba(11, 31, 58, 0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .disclaimer svg {
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .disclaimer p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      padding-bottom: 8px;
+    }
+
+    .footer p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .footer strong {
+      color: var(--navy);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 420px) {
       .form-card {
-        background: var(--white);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 28px 28px 24px;
-        box-shadow: var(--shadow-md);
-      }
-      .form-card h2 {
-        font-family: "Playfair Display", serif;
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--navy);
-        margin-bottom: 22px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .form-card h2::before {
-        content: "";
-        width: 4px;
-        height: 22px;
-        background: linear-gradient(to bottom, var(--gold), var(--gold-light));
-        border-radius: 4px;
-        flex-shrink: 0;
-      }
-
-      /* ─── Form Fields ─── */
-      .field {
-        margin-bottom: 20px;
-      }
-      .field label {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text-mid);
-        margin-bottom: 8px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-      .field label .required-dot {
-        width: 5px;
-        height: 5px;
-        background: var(--gold);
-        border-radius: 50%;
-        display: inline-block;
-      }
-
-      .input-wrap {
-        position: relative;
-      }
-      .input-prefix {
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text-mid);
-        pointer-events: none;
-        user-select: none;
-      }
-      .input-wrap input[type="text"] {
-        width: 100%;
-        padding: 13px 14px 13px 46px;
-        border: 1.5px solid var(--border);
-        border-radius: var(--radius-sm);
-        font-family: "DM Sans", sans-serif;
-        font-size: 15px;
-        font-weight: 500;
-        color: var(--text-dark);
-        background: var(--white);
-        outline: none;
-        transition:
-          border-color var(--transition),
-          box-shadow var(--transition);
-      }
-      .input-wrap input[type="text"]:focus {
-        border-color: var(--navy);
-        box-shadow: 0 0 0 3px rgba(11, 31, 58, 0.08);
-      }
-      .input-wrap input[type="text"].invalid {
-        border-color: var(--error);
-        box-shadow: 0 0 0 3px rgba(184, 50, 50, 0.08);
-      }
-
-      /* Tenor selector */
-      .tenor-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      .tenor-option {
-        position: relative;
-      }
-      .tenor-option input[type="radio"] {
-        position: absolute;
-        opacity: 0;
-        pointer-events: none;
-      }
-      .tenor-option label {
-        all: unset;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        padding: 14px 16px;
-        border: 1.5px solid var(--border);
-        border-radius: var(--radius-sm);
-        cursor: pointer;
-        transition:
-          border-color var(--transition),
-          background var(--transition),
-          box-shadow var(--transition);
-        text-transform: none;
-        letter-spacing: normal;
-      }
-      .tenor-option label .t-months {
-        font-family: "Playfair Display", serif;
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--navy);
-      }
-      .tenor-option label .t-rate {
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--text-muted);
-      }
-      .tenor-option input:checked + label {
-        border-color: var(--navy);
-        background: rgba(11, 31, 58, 0.04);
-        box-shadow: 0 0 0 3px rgba(11, 31, 58, 0.07);
-      }
-      .tenor-option input:checked + label .t-months {
-        color: var(--navy);
-      }
-      .tenor-option input:checked + label .t-rate {
-        color: var(--gold);
-        font-weight: 600;
-      }
-      .tenor-option label:hover {
-        border-color: var(--text-mid);
-        background: rgba(11, 31, 58, 0.02);
-      }
-
-      /* Hint & Error */
-      .field-hint {
-        margin-top: 7px;
-        font-size: 12px;
-        color: var(--text-muted);
-      }
-      .field-error {
-        margin-top: 7px;
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--error);
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        opacity: 0;
-        transform: translateY(-4px);
-        transition:
-          opacity var(--transition),
-          transform var(--transition);
-      }
-      .field-error.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* ─── CTA Button ─── */
-      .btn-hitung {
-        width: 100%;
-        padding: 15px;
-        background: linear-gradient(135deg, var(--navy) 0%, #1b3a6b 100%);
-        color: var(--white);
-        border: none;
-        border-radius: var(--radius-sm);
-        font-family: "DM Sans", sans-serif;
-        font-size: 15px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        transition:
-          transform var(--transition),
-          box-shadow var(--transition);
-        margin-top: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-      }
-      .btn-hitung::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
-        opacity: 0;
-        transition: opacity var(--transition);
-      }
-      .btn-hitung:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 24px rgba(11, 31, 58, 0.22);
-      }
-      .btn-hitung:hover::before {
-        opacity: 0.15;
-      }
-      .btn-hitung:active {
-        transform: translateY(0);
-      }
-      .btn-hitung span,
-      .btn-hitung svg {
-        position: relative;
-        z-index: 1;
-      }
-
-      /* ─── Result Panel ─── */
-      .result-panel {
-        margin-top: 20px;
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        opacity: 0;
-        transform: translateY(16px);
-        pointer-events: none;
-        transition:
-          opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-          transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .result-panel.visible {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
-      }
-
-      .result-header {
-        background: linear-gradient(135deg, var(--navy) 0%, #1b3a6b 100%);
-        padding: 20px 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .result-header-left h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: var(--white);
-        margin-bottom: 3px;
-      }
-      .result-header-left p {
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.55);
-      }
-      .result-badge {
-        background: rgba(200, 151, 58, 0.18);
-        border: 1px solid rgba(200, 151, 58, 0.35);
-        border-radius: 99px;
-        padding: 5px 12px;
-        font-size: 11.5px;
-        font-weight: 600;
-        color: var(--gold-light);
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        white-space: nowrap;
-      }
-
-      .result-body {
-        background: var(--white);
-        border: 1px solid var(--border);
-        border-top: none;
-        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-        padding: 0;
-        overflow: hidden;
+        padding: 22px 18px 20px;
       }
 
       .result-section {
-        padding: 18px 24px;
-      }
-      .result-section + .result-section {
-        border-top: 1px solid var(--border);
-      }
-      .result-section-label {
-        font-size: 10.5px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--text-muted);
-        margin-bottom: 14px;
+        padding: 16px 18px;
       }
 
-      .result-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
-      }
-      .result-row:last-child {
-        margin-bottom: 0;
-      }
-      .rr-label {
-        font-size: 13.5px;
-        color: var(--text-mid);
-        display: flex;
-        align-items: center;
-        gap: 7px;
-      }
-      .rr-label .dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-      .dot-gold {
-        background: var(--gold);
-      }
-      .dot-navy {
-        background: var(--navy);
-      }
-      .dot-success {
-        background: var(--success);
-      }
-      .rr-value {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text-dark);
-        text-align: right;
-      }
-      .rr-value.highlight {
-        font-family: "DM Sans", sans-serif;
-        font-size: 1.05rem;
-        color: var(--navy);
-      }
-      .rr-value.green {
-        color: var(--success);
+      .result-header {
+        padding: 16px 18px;
       }
 
       .result-total-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: linear-gradient(135deg, var(--navy) 0%, #1b3a6b 100%);
-        padding: 16px 24px;
-      }
-      .rt-label {
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.65);
-      }
-      .rt-value {
-        font-family: "Playfair Display", serif;
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--gold-light);
+        padding: 14px 18px;
       }
 
-      /* ─── Disclaimer ─── */
-      .disclaimer {
-        margin-top: 16px;
-        padding: 14px 16px;
-        background: rgba(11, 31, 58, 0.04);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        display: flex;
+      .info-strip {
         gap: 10px;
-        align-items: flex-start;
-      }
-      .disclaimer svg {
-        flex-shrink: 0;
-        margin-top: 1px;
-      }
-      .disclaimer p {
-        font-size: 11.5px;
-        color: var(--text-muted);
-        line-height: 1.6;
       }
 
-      /* ─── Footer ─── */
-      .footer {
-        margin-top: 32px;
-        text-align: center;
-        padding-bottom: 8px;
+      .info-card {
+        padding: 12px 13px;
       }
-      .footer p {
-        font-size: 11.5px;
-        color: var(--text-muted);
-      }
-      .footer strong {
-        color: var(--navy);
-      }
+    }
+  </style>
+</head>
 
-      /* ─── Responsive ─── */
-      @media (max-width: 420px) {
-        .form-card {
-          padding: 22px 18px 20px;
-        }
-        .result-section {
-          padding: 16px 18px;
-        }
-        .result-header {
-          padding: 16px 18px;
-        }
-        .result-total-row {
-          padding: 14px 18px;
-        }
-        .info-strip {
-          gap: 10px;
-        }
-        .info-card {
-          padding: 12px 13px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- ── Header ── -->
-    <header class="header-banner" role="banner">
-      <div class="bank-badge" aria-label="Produk Deposito">
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 1L10.2 5.5H15L11.4 8.5L12.9 13L8 10.2L3.1 13L4.6 8.5L1 5.5H5.8L8 1Z" fill="#E8B86D" />
-        </svg>
-        <span>BPR Artha Pamenang</span>
-      </div>
-      <h1>Simulasi <em>Artha Untung</em></h1>
-      <!-- <p>Hitung potensi keuntungan deposito Anda secara instan &amp; transparan</p> -->
-    </header>
+<body>
+  <!-- ── Header ── -->
+  <header class="header-banner" role="banner">
+    <div class="bank-badge" aria-label="Produk Deposito">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 1L10.2 5.5H15L11.4 8.5L12.9 13L8 10.2L3.1 13L4.6 8.5L1 5.5H5.8L8 1Z" fill="#E8B86D" />
+      </svg>
+      <span>BPR Artha Pamenang</span>
+    </div>
+    <h1>Simulasi <em>Artha Untung</em></h1>
+    <!-- <p>Hitung potensi keuntungan deposito Anda secara instan &amp; transparan</p> -->
+  </header>
 
-    <main class="page-body" role="main">
-      <!-- ── Form Card ── -->
-      <div class="form-card">
-        <h2>Detail Penempatan</h2>
-        <form id="simulasiForm" novalidate>
-          <!-- Setoran Awal -->
-          <div class="field" id="field-setoran">
-            <label for="setoran">
-              Setoran Awal
-              <span class="required-dot" aria-hidden="true"></span>
-            </label>
-            <div class="input-wrap">
-              <span class="input-prefix" aria-hidden="true">Rp</span>
-              <input type="text" id="setoran" name="setoran" value="8.000.000" autocomplete="off" inputmode="numeric" placeholder="0" aria-describedby="setoran-hint setoran-error" aria-required="true" />
-            </div>
-            <p id="setoran-hint" class="field-hint">Minimum penempatan Rp 8.000.000</p>
-            <p id="setoran-error" class="field-error" role="alert" aria-live="polite">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" stroke="#B83232" stroke-width="1.5" />
-                <path d="M8 5v3.5M8 11v.5" stroke="#B83232" stroke-width="1.5" stroke-linecap="round" />
-              </svg>
-              Setoran awal minimal Rp 8.000.000
-            </p>
+  <main class="page-body" role="main">
+    <!-- ── Form Card ── -->
+    <div class="form-card">
+      <h2>Detail Penempatan</h2>
+      <form id="simulasiForm" novalidate>
+        <!-- Setoran Awal -->
+        <div class="field" id="field-setoran">
+          <label for="setoran">
+            Setoran Awal
+            <span class="required-dot" aria-hidden="true"></span>
+          </label>
+          <div class="input-wrap">
+            <span class="input-prefix" aria-hidden="true">Rp</span>
+            <input type="text" id="setoran" name="setoran" value="8.000.000" autocomplete="off" inputmode="numeric"
+              placeholder="0" aria-describedby="setoran-hint setoran-error" aria-required="true" />
           </div>
-
-          <!-- Tenor -->
-          <div class="field">
-            <label as="div">Jangka Waktu (Tenor) <span class="required-dot" aria-hidden="true"></span></label>
-            <div class="tenor-grid" role="radiogroup" aria-label="Pilih tenor deposito">
-              <div class="tenor-option">
-                <input type="radio" id="tenor-3" name="tenor" value="3" checked />
-                <label for="tenor-3">
-                  <span class="t-months">3 Bulan</span>
-                  <span class="t-rate">Bunga 3,50% p.a.</span>
-                </label>
-              </div>
-              <div class="tenor-option">
-                <input type="radio" id="tenor-6" name="tenor" value="6" />
-                <label for="tenor-6">
-                  <span class="t-months">6 Bulan</span>
-                  <span class="t-rate">Bunga 3,75% p.a.</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <!-- Submit -->
-          <!-- <button type="submit" class="btn-hitung" id="btnHitung" aria-label="Hitung simulasi deposito">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.8" />
-              <rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.8" />
-              <rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.8" />
-              <path d="M13 17h8M17 13v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          <p id="setoran-hint" class="field-hint">Minimum penempatan Rp 8.000.000</p>
+          <p id="setoran-error" class="field-error" role="alert" aria-live="polite">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="7" stroke="#B83232" stroke-width="1.5" />
+              <path d="M8 5v3.5M8 11v.5" stroke="#B83232" stroke-width="1.5" stroke-linecap="round" />
             </svg>
-            <span>Hitung Simulasi</span>
-          </button> -->
-        </form>
-      </div>
-
-      <!-- ── Result Panel ── -->
-      <section id="result" class="result-panel" aria-live="polite" aria-atomic="true" aria-label="Hasil simulasi">
-        <div class="result-header">
-          <div class="result-header-left">
-            <h3>Hasil Perhitungan</h3>
-            <p>Berdasarkan data penempatan Anda</p>
-          </div>
-          <span class="result-badge" id="res-tenor-badge">— Bulan</span>
+            Setoran awal minimal Rp 8.000.000
+          </p>
         </div>
 
-        <div class="result-body">
-          <!-- Pokok -->
-          <div class="result-section">
-            <p class="result-section-label">Dana Penempatan</p>
-            <div class="result-row">
-              <span class="rr-label"><span class="dot dot-navy" aria-hidden="true"></span>Setoran Awal</span>
-              <span class="rr-value highlight" id="res-setoran">—</span>
+        <!-- Tenor -->
+        <div class="field">
+          <label as="div">Jangka Waktu (Tenor) <span class="required-dot" aria-hidden="true"></span></label>
+          <div class="tenor-grid" role="radiogroup" aria-label="Pilih tenor deposito">
+            <div class="tenor-option">
+              <input type="radio" id="tenor-1" name="tenor" value="1" checked />
+              <label for="tenor-1">
+                <span class="t-months">1 Bulan</span>
+                <span class="t-rate">Bunga 4,00% p.a.</span>
+              </label>
             </div>
-            <div class="result-row">
-              <span class="rr-label"><span class="dot dot-navy" aria-hidden="true"></span>Suku Bunga</span>
-              <span class="rr-value" id="res-rate">—</span>
+
+            <div class="tenor-option">
+              <input type="radio" id="tenor-3" name="tenor" value="3" />
+              <label for="tenor-3">
+                <span class="t-months">3 Bulan</span>
+                <span class="t-rate">Bunga 4,25% p.a.</span>
+              </label>
+            </div>
+
+            <div class="tenor-option">
+              <input type="radio" id="tenor-6" name="tenor" value="6" />
+              <label for="tenor-6">
+                <span class="t-months">6 Bulan</span>
+                <span class="t-rate">Bunga 4,25% p.a.</span>
+              </label>
+            </div>
+
+            <div class="tenor-option">
+              <input type="radio" id="tenor-12" name="tenor" value="12" />
+              <label for="tenor-12">
+                <span class="t-months">12 Bulan</span>
+                <span class="t-rate">Bunga 4,25% p.a.</span>
+              </label>
             </div>
           </div>
+        </div>
+      </form>
+    </div>
 
-          <!-- Bunga -->
-          <div class="result-section">
-            <p class="result-section-label">Bunga</p>
-            <div class="result-row">
-              <span class="rr-label"><span class="dot dot-gold" aria-hidden="true"></span>Per Bulan</span>
-              <span class="rr-value green" id="res-bunga-bulan">—</span>
-            </div>
-            <div class="result-row">
-              <span class="rr-label"><span class="dot dot-gold" aria-hidden="true"></span>Total <span id="res-tenor-2">—</span> Bulan</span>
-              <span class="rr-value green highlight" id="res-bunga-total">—</span>
-            </div>
-          </div>
-
-          <!-- Komisi -->
-          <!-- <div class="result-section">
-            <p class="result-section-label">Komisi Marketing</p>
-            <div class="result-row">
-              <span class="rr-label"><span class="dot dot-success" aria-hidden="true"></span>Komisi Kotor Per Bulan</span>
-              <span class="rr-value" id="res-komisi-kotor">—</span>
-            </div>
-            <div class="result-row">
-              <span class="rr-label"><span class="dot dot-success" aria-hidden="true"></span>PPH</span>
-              <span class="rr-value">2,5 %</span>
-            </div>
-            <div class="result-row">
-              <span class="rr-label"><span class="dot dot-success" aria-hidden="true"></span>Per Bulan</span>
-              <span class="rr-value" id="res-komisi-bulan">—</span>
-            </div>
-            <div class="result-row">
-              <span class="rr-label"><span class="dot dot-success" aria-hidden="true"></span>Total <span id="res-tenor-3">—</span> Bulan</span>
-              <span class="rr-value highlight" id="res-komisi-total">—</span>
-            </div>
-          </div> -->
-
-          <!-- Grand Total -->
-          <!-- <div class="result-total-row">
-            <span class="rt-label">Hasil perhitungan</span>
-            <span class="rt-value" id="res-total-penerimaan">...</span>
-          </div>
-        </div> -->
-      </section>
-
-      <!-- ── Disclaimer ── -->
-      <div class="disclaimer" role="note" aria-label="Catatan perhitungan">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="8" cy="8" r="6.5" stroke="#8095AB" stroke-width="1.4" />
-          <path d="M8 7v4M8 5.5V5" stroke="#8095AB" stroke-width="1.4" stroke-linecap="round" />
-        </svg>
-        <p>Simulasi ini bersifat indikatif. Hasil perhitungan menggunakan asumsi: pajak bunga <strong>20%</strong>. Angka aktual dapat berbeda sesuai kebijakan yang berlaku.</p>
+    <!-- ── Result Panel ── -->
+    <section id="result" class="result-panel" aria-live="polite" aria-atomic="true" aria-label="Hasil simulasi">
+      <div class="result-header">
+        <div class="result-header-left">
+          <h3>Hasil Perhitungan</h3>
+          <p>Berdasarkan data penempatan Anda</p>
+        </div>
+        <span class="result-badge" id="res-tenor-badge">— Bulan</span>
       </div>
 
-      <!-- ── Footer ── -->
-      <footer class="footer" role="contentinfo">
-        <p><strong>Artha Untung</strong> &mdash; BPR Artha Pamenang &copy; 2026</p>
-      </footer>
-    </main>
+      <div class="result-body">
+        <!-- Pokok -->
+        <div class="result-section">
+          <p class="result-section-label">Dana Penempatan</p>
+          <div class="result-row">
+            <span class="rr-label"><span class="dot dot-navy" aria-hidden="true"></span>Setoran Awal</span>
+            <span class="rr-value highlight" id="res-setoran">—</span>
+          </div>
+          <div class="result-row">
+            <span class="rr-label"><span class="dot dot-navy" aria-hidden="true"></span>Suku Bunga</span>
+            <span class="rr-value" id="res-rate">—</span>
+          </div>
+        </div>
 
-    <script>
-      /* ─── Helpers ─── */
-      const fmt = (n) => "Rp\u00A0" + Math.trunc(n).toLocaleString("id-ID");
-      const fmtRate = (r) => (r * 100).toFixed(2).replace(".", ",") + "% p.a.";
-      const fmtDisp = (n) => n.toLocaleString("id-ID");
+        <!-- Bunga -->
+        <div class="result-section">
+          <p class="result-section-label">Bunga</p>
+          <div class="result-row">
+            <span class="rr-label"><span class="dot dot-gold" aria-hidden="true"></span>Per Bulan</span>
+            <span class="rr-value green" id="res-bunga-bulan">—</span>
+          </div>
+          <div class="result-row">
+            <span class="rr-label"><span class="dot dot-gold" aria-hidden="true"></span>Total <span
+                id="res-tenor-2">—</span> Bulan</span>
+            <span class="rr-value green highlight" id="res-bunga-total">—</span>
+          </div>
+        </div>
+    </section>
 
-      /* ─── Elements ─── */
-      const form = document.getElementById("simulasiForm");
-      const inputEl = document.getElementById("setoran");
-      const errMsg = document.getElementById("setoran-error");
-      const resultEl = document.getElementById("result");
+    <!-- ── Disclaimer ── -->
+    <div class="disclaimer" role="note" aria-label="Catatan perhitungan">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="8" cy="8" r="6.5" stroke="#8095AB" stroke-width="1.4" />
+        <path d="M8 7v4M8 5.5V5" stroke="#8095AB" stroke-width="1.4" stroke-linecap="round" />
+      </svg>
+      <p>Simulasi ini bersifat indikatif. Hasil perhitungan menggunakan asumsi: pajak bunga <strong>20%</strong>. Angka
+        aktual dapat berbeda sesuai kebijakan yang berlaku.</p>
+    </div>
 
-      /* ─── State ─── */
-      let rawValue = 8000000;
-      let debouncer = null;
-      const MIN = 8000000;
+    <!-- ── Footer ── -->
+    <footer class="footer" role="contentinfo">
+      <p><strong>Artha Untung</strong> &mdash; BPR Artha Pamenang &copy; 2026</p>
+    </footer>
+  </main>
 
-      /* ─── Validation ─── */
-      function setValid(ok) {
-        inputEl.classList.toggle("invalid", !ok);
-        errMsg.classList.toggle("visible", !ok);
+  <script>
+    /* ─── Helpers ─── */
+    const fmt = (n) => "Rp\u00A0" + Math.trunc(n).toLocaleString("id-ID");
+    const fmtRate = (r) => (r * 100).toFixed(2).replace(".", ",") + "% p.a.";
+    const fmtDisp = (n) => n.toLocaleString("id-ID");
+
+    /* ─── Elements ─── */
+    const form = document.getElementById("simulasiForm");
+    const inputEl = document.getElementById("setoran");
+    const errMsg = document.getElementById("setoran-error");
+    const resultEl = document.getElementById("result");
+
+    /* ─── State ─── */
+    let rawValue = 8000000;
+    let debouncer = null;
+    const MIN = 8000000;
+
+    /* ─── Validation ─── */
+    function setValid(ok) {
+      inputEl.classList.toggle("invalid", !ok);
+      errMsg.classList.toggle("visible", !ok);
+    }
+
+    /* ─── Calculation & Render ─── */
+    const CONFIG = Object.freeze({
+      1: { hari: 30, bunga_pa: 0.04 },
+      3: { hari: 90, bunga_pa: 0.0425 },
+      6: { hari: 180, bunga_pa: 0.0425 },
+      12: { hari: 365, bunga_pa: 0.0425 }
+    });
+
+    function calculate() {
+      if (rawValue < MIN) return;
+
+      const tenor = parseInt(document.querySelector('input[name="tenor"]:checked').value);
+      const { hari, bunga_pa } = CONFIG[tenor];
+
+      const bunga_kotor_total = rawValue * bunga_pa * (hari / 365);
+      const bunga_net_total = bunga_kotor_total * 0.8;
+      const bunga_net_bulan = bunga_net_total / tenor;
+
+      document.getElementById("res-tenor-badge").textContent = tenor + " Bulan";
+      document.getElementById("res-setoran").textContent = fmt(rawValue);
+      document.getElementById("res-rate").textContent = fmtRate(bunga_pa);
+      document.getElementById("res-tenor-2").textContent = tenor;
+
+      document.getElementById("res-bunga-bulan").textContent = fmt(bunga_net_bulan);
+      document.getElementById("res-bunga-total").textContent = fmt(bunga_net_total);
+
+      if (!resultEl.classList.contains("visible")) {
+        resultEl.classList.add("visible");
+        setTimeout(() => resultEl.scrollIntoView({ behavior: "smooth", block: "nearest" }), 80);
       }
+    }
 
-      /* ─── Calculation & Render ─── */
-      const CONFIG = {
-        3: { hari: 90, bunga_pa: 0.035 },
-        6: { hari: 180, bunga_pa: 0.0375 },
-      };
+    /* ─── Input: live formatting + debounced calc ─── */
+    inputEl.addEventListener("input", function () {
+      const digits = this.value.replace(/\D/g, "");
+      rawValue = parseInt(digits, 10) || 0;
 
-function calculate() {
-  if (rawValue < MIN) return;
+      // Reformat display, keep caret stable
+      const caretFromRight = this.value.length - (this.selectionStart ?? this.value.length);
+      const formatted = rawValue > 0 ? fmtDisp(rawValue) : "";
+      this.value = formatted;
+      try {
+        const pos = Math.max(0, formatted.length - caretFromRight);
+        this.setSelectionRange(pos, pos);
+      } catch (_) { }
 
-  const tenor = parseInt(document.querySelector('input[name="tenor"]:checked').value);
-  const { hari, bunga_pa } = CONFIG[tenor];
+      // Only show error if user has typed something invalid (not empty state)
+      setValid(rawValue === 0 || rawValue >= MIN);
 
-  const bunga_kotor_total = rawValue * bunga_pa * (hari / 365);
-  const bunga_net_total = bunga_kotor_total * 0.8;
-  const bunga_net_bulan = bunga_net_total / tenor;
+      // Debounce: trigger calc 400ms after user stops typing
+      clearTimeout(debouncer);
+      if (rawValue >= MIN) debouncer = setTimeout(calculate, 400);
+    });
 
-  document.getElementById("res-tenor-badge").textContent = tenor + " Bulan";
-  document.getElementById("res-setoran").textContent = fmt(rawValue);
-  document.getElementById("res-rate").textContent = fmtRate(bunga_pa);
-  document.getElementById("res-tenor-2").textContent = tenor;
-
-  document.getElementById("res-bunga-bulan").textContent = fmt(bunga_net_bulan);
-  document.getElementById("res-bunga-total").textContent = fmt(bunga_net_total);
-
-  if (!resultEl.classList.contains("visible")) {
-    resultEl.classList.add("visible");
-    setTimeout(() => resultEl.scrollIntoView({ behavior: "smooth", block: "nearest" }), 80);
-  }
-}
-
-      /* ─── Input: live formatting + debounced calc ─── */
-      inputEl.addEventListener("input", function () {
-        const digits = this.value.replace(/\D/g, "");
-        rawValue = parseInt(digits, 10) || 0;
-
-        // Reformat display, keep caret stable
-        const caretFromRight = this.value.length - (this.selectionStart ?? this.value.length);
-        const formatted = rawValue > 0 ? fmtDisp(rawValue) : "";
-        this.value = formatted;
-        try {
-          const pos = Math.max(0, formatted.length - caretFromRight);
-          this.setSelectionRange(pos, pos);
-        } catch (_) {}
-
-        // Only show error if user has typed something invalid (not empty state)
-        setValid(rawValue === 0 || rawValue >= MIN);
-
-        // Debounce: trigger calc 400ms after user stops typing
-        clearTimeout(debouncer);
-        if (rawValue >= MIN) debouncer = setTimeout(calculate, 400);
-      });
-
-      // Blur: finalize & immediate calc
-      inputEl.addEventListener("blur", function () {
-        if (rawValue === 0) {
-          this.value = "";
-          setValid(false);
-          return;
-        }
-        this.value = fmtDisp(rawValue);
-        if (rawValue < MIN) {
-          setValid(false);
-          return;
-        }
-        setValid(true);
-        clearTimeout(debouncer);
-        calculate();
-      });
-
-      // Tenor change: recalculate immediately
-      document.querySelectorAll('input[name="tenor"]').forEach((radio) => {
-        radio.addEventListener("change", () => {
-          if (rawValue >= MIN) calculate();
-        });
-      });
-
-      /* ─── Submit: Enter key / button fallback ─── */
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        if (rawValue < MIN) {
-          setValid(false);
-          inputEl.focus();
-          return;
-        }
-        clearTimeout(debouncer);
-        calculate();
-      });
-
-      /* ─── Init: render for default value ─── */
+    // Blur: finalize & immediate calc
+    inputEl.addEventListener("blur", function () {
+      if (rawValue === 0) {
+        this.value = "";
+        setValid(false);
+        return;
+      }
+      this.value = fmtDisp(rawValue);
+      if (rawValue < MIN) {
+        setValid(false);
+        return;
+      }
+      setValid(true);
+      clearTimeout(debouncer);
       calculate();
-    </script>
-  </body>
+    });
+
+    // Tenor change: recalculate immediately
+    document.querySelectorAll('input[name="tenor"]').forEach((radio) => {
+      radio.addEventListener("change", () => {
+        if (rawValue >= MIN) calculate();
+      });
+    });
+
+    /* ─── Submit: Enter key / button fallback ─── */
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (rawValue < MIN) {
+        setValid(false);
+        inputEl.focus();
+        return;
+      }
+      clearTimeout(debouncer);
+      calculate();
+    });
+
+    /* ─── Init: render for default value ─── */
+    calculate();
+  </script>
+</body>
+
 </html>
