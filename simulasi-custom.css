@@ -1,0 +1,217 @@
+/**
+ * simulasi-custom.css
+ * Stylesheet tambahan untuk modul Simulasi Deposito Khusus — BPR Artha Pamenang
+ *
+ * File ini hanya mendefinisikan gaya yang unik bagi modul simulasi-custom.
+ * Semua CSS variabel (--navy, --gold, --border, dst.) dan kelas dasar
+ * (form-card, field, input-wrap, result-panel, dst.) diwarisi dari index.html.
+ */
+
+/* ═══════════════════════════════════════════════
+   TAB NAVIGATION
+   ═══════════════════════════════════════════════ */
+.tab-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin: 20px 0 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 5px;
+  box-shadow: var(--shadow-sm);
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition:
+    background var(--transition),
+    color var(--transition),
+    box-shadow var(--transition);
+}
+
+.tab-btn.active {
+  background: var(--navy);
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(11, 31, 58, 0.2);
+}
+
+.tab-btn:not(.active):hover {
+  background: rgba(11, 31, 58, 0.05);
+  color: var(--text-dark);
+}
+
+.tab-btn:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+}
+
+/* Sembunyikan panel saat hidden (dikelola via JS) */
+.tab-panel[hidden] {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════
+   PRESET PRODUK GRID
+   6 tombol (2 kolom × 3 baris): rate × tenor
+   ═══════════════════════════════════════════════ */
+.c-preset-hint {
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+}
+
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.preset-btn {
+  /* Reset semua default button style */
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  width: 100%;
+  padding: 12px 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
+}
+
+.preset-btn .p-rate {
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.3;
+}
+
+.preset-btn .p-tenor {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.preset-btn:hover {
+  border-color: var(--text-mid);
+  background: rgba(11, 31, 58, 0.02);
+}
+
+.preset-btn:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+}
+
+.preset-btn.active {
+  border-color: var(--navy);
+  background: rgba(11, 31, 58, 0.04);
+  box-shadow: 0 0 0 3px rgba(11, 31, 58, 0.07);
+}
+
+.preset-btn.active .p-rate {
+  color: var(--navy);
+}
+
+.preset-btn.active .p-tenor {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+
+/* ═══════════════════════════════════════════════
+   INPUT MANUAL: BUNGA & TENOR (2 KOLOM)
+   ═══════════════════════════════════════════════ */
+.custom-inputs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+/* Field di dalam row tidak perlu margin-bottom bawaan */
+.custom-inputs-row .field {
+  margin-bottom: 0;
+}
+
+/* Suffix unit di sebelah kanan input (% p.a. / Bln) */
+.input-suffix {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/*
+ * Input tanpa prefix Rp tapi dengan suffix kanan.
+ * Override padding dari .input-wrap input[type="text"] di index.html.
+ */
+.c-input-suffix-pad {
+  padding: 13px 52px 13px 14px !important;
+}
+
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE OVERRIDES
+   ═══════════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .tab-btn {
+    font-size: 12px;
+    gap: 5px;
+    padding: 9px 8px;
+  }
+
+  .preset-btn {
+    padding: 10px 8px;
+  }
+
+  .preset-btn .p-rate {
+    font-size: 0.9rem;
+  }
+
+  /* Stack kolom input di layar sangat kecil */
+  .custom-inputs-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .custom-inputs-row .field {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 280px) {
+  .preset-grid {
+    grid-template-columns: 1fr;
+  }
+}

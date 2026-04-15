@@ -10,6 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
+  <link rel="stylesheet" href="simulasi-custom.css" />
   <style>
     /* ─── Reset & Base ─── */
     *,
@@ -648,6 +649,9 @@
         padding: 12px 13px;
       }
     }
+
+    /* Utility: sembunyikan panel tab yang tidak aktif */
+    .tab-panel[hidden] { display: none !important; }
   </style>
 </head>
 
@@ -665,6 +669,47 @@
   </header>
 
   <main class="page-body" role="main">
+
+    <!-- ── Tab Navigation ── -->
+    <nav class="tab-nav" role="tablist" aria-label="Pilih jenis simulasi deposito">
+      <button
+        class="tab-btn active"
+        role="tab"
+        id="tab-btn-standar"
+        aria-selected="true"
+        aria-controls="panel-standar"
+      >
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <rect x="1.5" y="1.5" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M4.5 8h7M4.5 5.5h7M4.5 10.5h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        Simulasi Standar
+      </button>
+      <button
+        class="tab-btn"
+        role="tab"
+        id="tab-btn-custom"
+        aria-selected="false"
+        aria-controls="panel-custom"
+      >
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        Simulasi Khusus
+      </button>
+    </nav>
+
+    <!-- ══════════════════════════════════
+         PANEL STANDAR (tab pertama)
+         ══════════════════════════════════ -->
+    <div
+      id="panel-standar"
+      class="tab-panel"
+      role="tabpanel"
+      aria-labelledby="tab-btn-standar"
+    >
+
     <!-- ── Form Card ── -->
     <div class="form-card">
       <h2>Detail Penempatan</h2>
@@ -775,14 +820,31 @@
         <circle cx="8" cy="8" r="6.5" stroke="#8095AB" stroke-width="1.4" />
         <path d="M8 7v4M8 5.5V5" stroke="#8095AB" stroke-width="1.4" stroke-linecap="round" />
       </svg>
-      <p>Simulasi ini bersifat indikatif. Hasil perhitungan menggunakan asumsi: pajak bunga <strong>20%</strong>. Angka
+      <p>Simulasi ini bersifat indikatif. Hasil perhitungan menggunakan asumsi. Angka
         aktual dapat berbeda sesuai kebijakan yang berlaku.</p>
     </div>
 
-    <!-- ── Footer ── -->
+    </div><!-- /#panel-standar -->
+
+    <!-- ══════════════════════════════════
+         PANEL CUSTOM (tab kedua)
+         Konten di-inject oleh simulasi-custom.js
+         ══════════════════════════════════ -->
+    <div
+      id="panel-custom"
+      class="tab-panel"
+      role="tabpanel"
+      aria-labelledby="tab-btn-custom"
+      hidden
+    >
+      <!-- simulasi-custom.js akan meng-inject konten ke sini -->
+    </div><!-- /#panel-custom -->
+
+    <!-- ── Footer (selalu tampil di kedua tab) ── -->
     <footer class="footer" role="contentinfo">
       <p><strong>Information Technologi</strong> &mdash; BPR Artha Pamenang &copy; 2026</p>
     </footer>
+
   </main>
 
   <script>
@@ -900,7 +962,39 @@
 
     /* ─── Init: render for default value ─── */
     calculate();
+
+    /* ─── Tab Navigation ─── */
+    (function () {
+      const tabBtns   = document.querySelectorAll('.tab-btn[role="tab"]');
+      const tabPanels = document.querySelectorAll('.tab-panel[role="tabpanel"]');
+
+      tabBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const targetId = this.getAttribute('aria-controls');
+
+          /* Update tombol */
+          tabBtns.forEach(function (b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          this.classList.add('active');
+          this.setAttribute('aria-selected', 'true');
+
+          /* Update panel */
+          tabPanels.forEach(function (panel) {
+            if (panel.id === targetId) {
+              panel.removeAttribute('hidden');
+            } else {
+              panel.setAttribute('hidden', '');
+            }
+          });
+        });
+      });
+    })();
   </script>
+
+  <!-- Modul Simulasi Khusus — dimuat setelah DOM siap -->
+  <script src="simulasi-custom.js"></script>
 </body>
 
 </html>
